@@ -1,0 +1,211 @@
+﻿<Page
+    x:Class="FoodLook_2.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FoodLook_2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:FoodLook_2.Data"
+    mc:Ignorable="d"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    Background="{ThemeResource AppBackground}">
+    <Page.Resources>
+        <DataTemplate x:Key="CoursesItemTemplate">
+            <Grid Margin="0,9.5,12,2.5" Background="LightGray" Height="{Binding ImageSize}" Width="{Binding ImageSize}">
+                <Image Source="{Binding ImagePath}" Stretch="UniformToFill" Height="{Binding ImageSize}" Width="{Binding ImageSize}"/>
+
+                <Border VerticalAlignment="Bottom" Margin="0" Background="#FFFFFFFF" Opacity="0.7">
+                    <TextBlock Text="{Binding Label}" TextWrapping="Wrap" FontSize="17" FontWeight="SemiLight" Margin="6" Foreground="Black"/>
+                </Border>                
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid>
+        
+        <Pivot x:Name="MainPagePivot" IsEnabled="True" SelectionChanged="MainPagePivot_SelectionChanged">
+
+            <Pivot.Title>
+                <StackPanel>
+                    <TextBlock Text="FoodLook" FontSize="30" Style="{StaticResource HeaderTextBlockStyle}" Margin="0,-5,0,6"/>
+                </StackPanel>
+            </Pivot.Title>
+            
+            <!--Restaurants-->
+            <PivotItem x:Name="Restaurants" DataContext="{Binding Restaurants}" Margin="0">
+                
+                <PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="RestaurantsHeader" Text="РЕСТОРАНЫ" Margin="0,6"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <ScrollViewer x:Name="RestaurantsScroll" ViewChanged="Scroll_ViewChanged" Tag="Restaurants">
+                    
+                    <Grid>
+
+                        <ProgressRing x:Name="RestaurantsProgressRing" Background="{ThemeResource AppBackground}" Foreground="{ThemeResource AppMainColor}" IsActive="False" Margin="0,0,0,100"/>
+
+                        <TextBlock x:Name="RestarauntsMessage" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="20" VerticalAlignment="Center" Margin="0,0,0,100"
+                                   FontWeight="SemiLight" Style="{ThemeResource ListViewItemContentTextBlockStyle}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                        <ListView ItemsSource="{Binding Items}" IsItemClickEnabled="True" ItemClick="RestaurantClick" ScrollViewer.VerticalScrollMode="Disabled" Padding="0,0,0,60">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="19,9.5">
+                                        <Grid Background="LightGray" VerticalAlignment="Top" Margin="0,0,12,0">
+                                            <Image Source="{Binding ImagePath}" Width="70" Height="70" Stretch="UniformToFill"/>
+                                        </Grid>
+
+                                        <TextBlock Text="{Binding Label}" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="25" VerticalAlignment="Center" FontWeight="SemiLight"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+
+                    </Grid>                    
+                    
+                </ScrollViewer>
+
+            </PivotItem>
+
+            <!--Категории-->
+            <PivotItem x:Name="Categories" DataContext="{Binding Categories}" Margin="0">
+
+                <PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="CategoriesHeader" Text="КАТЕГОРИИ" Margin="0,6"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <ScrollViewer x:Name="CategoriesScroll" ViewChanged="Scroll_ViewChanged" Tag="Categories">
+
+                    <Grid>
+
+                        <ProgressRing x:Name="CategoriesProgressRing" Background="{ThemeResource AppBackground}" Foreground="{ThemeResource AppMainColor}" IsActive="False" Margin="0,0,0,100"/>
+
+                        <TextBlock x:Name="CategoriesMessage" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="20" VerticalAlignment="Center" Margin="0,0,0,100"
+                                   FontWeight="SemiLight" Style="{ThemeResource ListViewItemContentTextBlockStyle}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                        <ListView ItemsSource="{Binding Items}" IsItemClickEnabled="True" ItemClick="CategoryClick" ScrollViewer.VerticalScrollMode="Disabled" Padding="0,0,0,50" Loaded="CategoriesLoaded">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="19,9.5">
+                                        <TextBlock Text="{Binding Label}" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="25" VerticalAlignment="Center" FontWeight="SemiLight"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+
+                    </Grid>
+
+                </ScrollViewer>
+
+            </PivotItem>
+
+            <!--Courses-->
+            <PivotItem x:Name="Courses" DataContext="{Binding Courses}" Margin="0">
+
+                <PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="CoursesHeader" Text="БЛЮДА" Margin="0,6"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <ScrollViewer x:Name="CoursesScroll" ViewChanged="Scroll_ViewChanged" Tag="Courses">
+
+                    <Grid>
+
+                        <ProgressRing x:Name="CoursesProgressRing" Background="{ThemeResource AppBackground}" Foreground="{ThemeResource AppMainColor}" IsActive="False" Margin="0,0,0,100"/>
+
+                        <TextBlock x:Name="CoursesMessage" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="20" VerticalAlignment="Center" Margin="0,0,0,100"
+                                   FontWeight="SemiLight" Style="{ThemeResource ListViewItemContentTextBlockStyle}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                        <GridView ItemsSource="{Binding Items}" IsItemClickEnabled="True" ScrollViewer.VerticalScrollMode="Disabled" Loaded="CoursesLoaded" ItemClick="CoursesClick"
+                              ItemTemplate="{StaticResource CoursesItemTemplate}" Margin="19,0,0,0" Padding="0,0,0,60">
+
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+
+                        </GridView>
+
+                    </Grid>
+
+                </ScrollViewer>
+
+            </PivotItem>
+
+            <!--PromotedRestaurants-->
+            <PivotItem x:Name="PromotedRestaurants" DataContext="{Binding PromotedRestaurants}" Margin="0">
+
+                <PivotItem.Header>
+                    <StackPanel>
+                        <TextBlock x:Uid="PromotedRestaurantsHeader" Text="РЕКЛАМИРУЕМЫЕ" Margin="0,6"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <ScrollViewer x:Name="PromotedRestaurantsScroll" ViewChanged="Scroll_ViewChanged" Tag="PromotedRestaurants">
+                    
+                    <Grid>
+
+                        <ProgressRing x:Name="PromotedRestaurantsProgressRing" Background="{ThemeResource AppBackground}" Foreground="{ThemeResource AppMainColor}" IsActive="False" Margin="0,0,0,100"/>
+
+                        <TextBlock x:Name="PromotedRestaurantsMessage" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="20" VerticalAlignment="Center" Margin="0,0,0,100"
+                                   FontWeight="SemiLight" Style="{ThemeResource ListViewItemContentTextBlockStyle}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                        
+                        <ListView ItemsSource="{Binding Items}" IsItemClickEnabled="True" ItemClick="RestaurantClick" ScrollViewer.VerticalScrollMode="Disabled" Loaded="PromotedRestaurantsLoaded" Padding="0,0,0,40">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="19,9.5">
+                                        <Grid Background="LightGray" VerticalAlignment="Top" Margin="0,0,12,0">
+                                            <Image Source="{Binding ImagePath}" Width="70" Height="70" Stretch="UniformToFill"/>
+                                        </Grid>
+
+                                        <TextBlock Text="{Binding Label}" TextWrapping="Wrap" TextLineBounds="TrimToCapHeight" FontSize="25" VerticalAlignment="Center" FontWeight="SemiLight"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+
+                    </Grid>                    
+
+                </ScrollViewer>
+
+            </PivotItem>
+
+        </Pivot>
+        
+    </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar x:Name="MainPageCommandBar" Background="{ThemeResource AppBarColor}" Foreground="{ThemeResource AppMainColor}" Visibility="Visible">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Uid="FavoriteButton" x:Name="FavoriteButton" Icon="Favorite" Label="избранное" Click="FavoriteButton_Click"/>
+                <AppBarButton x:Uid="FindButton" x:Name="FindButton" Icon="Find" Label="поиск" Click="FindButton_Click"/>
+                <AppBarButton x:Uid="CoursesToggle" x:Name="CoursesToggle" Label="вегетарианские" Icon="Filter" Visibility="Collapsed" Click="CoursesToggle_Click"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="RefreshButton" x:Name="RefreshButton" Label="обновить" Visibility="Collapsed" Click="RefreshButton_Click"/>
+                <AppBarButton x:Uid="SettingsButton" Label="настройки" Click="SettingsClick"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

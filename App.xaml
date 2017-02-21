@@ -1,0 +1,34 @@
+﻿<Application
+    x:Class="FoodLook_2.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FoodLook_2">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="AppBackground" Color="#F8F8F8"/>
+                    <SolidColorBrush x:Key="AppMainColor" Color="#FFCC0000"/>
+                    <SolidColorBrush x:Key="AppBarColor" Color="#BBB5B5B5"/>
+                    <SolidColorBrush x:Key="SubtitleForegroundColor" Color="#FF454545"/>
+                    
+                    <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="#FF737373" />
+                    <SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FFCC0000" />
+                    <x:Double x:Key="PivotHeaderItemFontSize">20</x:Double>
+                    
+                    <SolidColorBrush x:Key="PhoneForegroundBrush" Color="#FF373737"/>
+                    <SolidColorBrush x:Key="TextSelectionHighlightColorThemeBrush" Color="#FFCC0000"/>
+                    <SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="Transparent" />
+                    <SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FF000000" />
+
+                    <SolidColorBrush x:Key="ScrollBarPanningBackgroundThemeBrush" Color="#80CC0000"/>
+                    <SolidColorBrush x:Key="ScrollBarPanningBorderThemeBrush" Color="#80CC0000"/>
+                    <Thickness x:Key="ScrollBarPanningBorderThemeThickness">0.5</Thickness>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
